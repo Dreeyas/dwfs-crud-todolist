@@ -22,6 +22,33 @@ function addTask(task) {
     enterTask.value = "";
 }
 
+//AGREGANDO HACIENDO CLICK EN EL BOTON + 
+submitButton.addEventListener('click', () => {
+  const task = enterTask.value
+  if (task === "") {
+      alert('No has ingresado ninguna tarea 👀')
+  } else
+      addTask(task)
+});
+
+//AGREGANDO HACIENDO ENTER
+enterTask.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+      const task = enterTask.value
+      if (task === "") {
+          alert('No has ingresado ninguna tarea 👀')
+      } else
+          addTask(task)
+  }
+});
+
+//ZONA DE MOSTRAR TAREAS EN LA LISTA
+function showTask() {
+  tasks.forEach((task) => {
+      addTask(task);
+  });
+};
+
 //ZONA DE BORRAR TAREA 
 function deleteTask(task, listItem) {
     const index = tasks.indexOf(task);
@@ -29,36 +56,40 @@ function deleteTask(task, listItem) {
     list.removeChild(listItem);
   };
 
+//ZONA DE EDITAR LA TAREA 
+function updateTask(taskElement) {
+    const taskText = taskElement.querySelector(".task_text");
+    const taskInput = document.createElement("input");
+    taskInput.type = "text";
+    taskInput.value = taskText.textContent;
+    taskInput.className = "edit_task_input";
+  
+    taskElement.replaceChild(taskInput, taskText);
+    taskInput.focus();
+  
+    taskInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        taskText.textContent = taskInput.value;
+        taskElement.replaceChild(taskText, taskInput);
+      }
+    });
+  }
 
-//AGREGANDO HACIENDO CLICK EN EL BOTON + 
-submitButton.addEventListener('click', () => {
-    const task = enterTask.value
-    if (task === "") {
-        alert('No has ingresado ninguna tarea 👀')
-    } else
-        addTask(task)
-});
 
-//AGREGANDO HACIENDO ENTER
-enterTask.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') {
-        const task = enterTask.value
-        if (task === "") {
-            alert('No has ingresado ninguna tarea 👀')
-        } else
-            addTask(task)
-    }
-});
-
-//BORRANDO CON EL BOTON TRASH-CAN
+//FUNCIONALIDAD DEL BOTON TRASH Y PENCIL
 list.addEventListener('click', (e) => {
     const deleteButton = e.target.closest(".bi-trash-fill");
+    const updateButton = e.target.closest(".bi-pencil-square");
+
     if (deleteButton) {
       const listItem = deleteButton.parentNode;
       const taskText = listItem.querySelector(".task_text");
       const task = taskText.textContent;
       deleteTask(task, listItem);
-    }
+    } else if (updateButton) {
+        const listItem = updateButton.parentNode;
+        updateTask(listItem);
+      }
   });
 
 //ZONA DE MOSTRAR TAREAS EN LA LISTA
@@ -67,6 +98,4 @@ function showTask() {
         addTask(task);
     });
 }
-
-
 

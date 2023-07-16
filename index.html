@@ -17,7 +17,7 @@
 
     <div class="container">
         <div class="user_profile">
-            <h1>Hello, User!</h1>
+            <h1 id="greeting">Hello, <span id="username">User</span>!</h1>
             <p>Let's improve together 🤝 </p>
             <div id="date">Today is (Aqui va una fecha)</div>
         </div>
@@ -29,19 +29,15 @@
 
         <div class="list_area">
             <h3>And in today's schedule we have...</h3>
-            <ul id="list">
-                <ul id="task-list"></ul>
-                 <!-- Here should be added the list -->
-            </ul>
-            <div>
-                <p id="counter"><!-- Here it should show the total tasks in the list and how many we have done --></p>
-            </div>
+                <ul id="task-list"><!-- Here should be added the list --></ul>            
         </div>
-
+        <div>
+            <p id="counter"><!-- Here it should show the total tasks in the list and how many we have done --></p>
+        </div>
     </div>
 
-
     <script src="script.js"></script>
+    <script src="scripts-ui.js"></script>
     
 </body>
 
