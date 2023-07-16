@@ -1,9 +1,8 @@
 //Declaracion de variables
-let tasks = [];
 const enterTask = document.querySelector("#enter_task") //Variable para agregar una tarea desde el input
 const list = document.querySelector("#task-list") //Variable para manejar la lista de tareas
 const submitButton = document.querySelector("#submit") //Variable para manejar el boton de subida (+)
-
+let tasks = [];
 
 //ZONA DE AGREGAR TAREA EN EL INPUT
 function addTask(task) {
@@ -20,6 +19,7 @@ function addTask(task) {
 
     list.appendChild(listItem);
     enterTask.value = "";
+    saveTasks ()
 }
 
 //AGREGANDO HACIENDO CLICK EN EL BOTON + 
@@ -43,7 +43,7 @@ enterTask.addEventListener('keydown', function (e) {
 });
 
 //ZONA DE MOSTRAR TAREAS EN LA LISTA
-function showTask() {
+function showTasks() {
   tasks.forEach((task) => {
       addTask(task);
   });
@@ -54,6 +54,7 @@ function deleteTask(task, listItem) {
     const index = tasks.indexOf(task);
     tasks.splice(index, 1);
     list.removeChild(listItem);
+    saveTasks ()
   };
 
 //ZONA DE EDITAR LA TAREA 
@@ -72,6 +73,7 @@ function updateTask(taskElement) {
         taskText.textContent = taskInput.value;
         taskElement.replaceChild(taskText, taskInput);
       }
+      saveTasks ();
     });
   }
 
@@ -92,10 +94,17 @@ list.addEventListener('click', (e) => {
       }
   });
 
-//ZONA DE MOSTRAR TAREAS EN LA LISTA
-function showTask() {
-    tasks.forEach((task) => {
-        addTask(task);
-    });
+//ZONA DE LOCALSTORAGE
+function saveTasks (){
+  localStorage.setItem('tasks', JSON.stringify(tasks)); 
+};
+
+function displayTasks () {
+  const storedTasks = localStorage.getItem('tasks');
+  if (storedTasks) {
+    tasks = JSON.parse(storedTasks);
+    showTasks();
+  }
 }
 
+window.addEventListener('load', displayTasks);
