@@ -44,8 +44,19 @@ enterTask.addEventListener('keydown', function (e) {
 
 //ZONA DE MOSTRAR TAREAS EN LA LISTA
 function showTasks() {
-  tasks.forEach((task) => {
-      addTask(task);
+  list.innerHTML = "" //Aca estoy limpiando la lista para que quede vacia al recargar
+  tasks.forEach ((task) => {
+    const listItem = document.createElement("li");
+    listItem.innerHTML =
+                        `
+                        <input type="checkbox">
+                        <p class="task_text">${task}</p>
+                        <i class="bi bi-pencil-square"></i>
+                        <i class="bi bi-trash-fill"></i>
+                        </li>
+                        `;
+
+    list.appendChild(listItem);
   });
 };
 
@@ -105,6 +116,6 @@ function displayTasks () {
     tasks = JSON.parse(storedTasks);
     showTasks();
   }
-}
+};
 
 window.addEventListener('load', displayTasks);
