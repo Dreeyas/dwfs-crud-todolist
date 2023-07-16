@@ -3,16 +3,18 @@ const enterTask = document.querySelector("#enter_task") //Variable para agregar 
 const list = document.querySelector("#task-list") //Variable para manejar la lista de tareas
 const submitButton = document.querySelector("#submit") //Variable para manejar el boton de subida (+)
 let tasks = [];
+let idCounter = 1;
 
 //ZONA DE AGREGAR TAREA EN EL INPUT
 function addTask(task) {
     tasks.push(task);
     const listItem = document.createElement("li");
+    const taskId = idCounter; idCounter++;
     listItem.innerHTML =
                         `
                         <input type="checkbox">
                         <p class="task_text">${task}</p>
-                        <i class="bi bi-pencil-square"></i>
+                        <i id= "edit_${taskId}" class="bi bi-pencil-square"></i>
                         <i class="bi bi-trash-fill"></i>
                         </li>
                         `;
@@ -45,13 +47,14 @@ enterTask.addEventListener('keydown', function (e) {
 //ZONA DE MOSTRAR TAREAS EN LA LISTA
 function showTasks() {
   list.innerHTML = "" //Aca estoy limpiando la lista para que quede vacia al recargar
-  tasks.forEach ((task) => {
+  tasks.forEach ((task, i) => {
     const listItem = document.createElement("li");
+    const taskId = i++;
     listItem.innerHTML =
                         `
                         <input type="checkbox">
                         <p class="task_text">${task}</p>
-                        <i class="bi bi-pencil-square"></i>
+                        <i id= "edit_${taskId}" class="bi bi-pencil-square"></i>
                         <i class="bi bi-trash-fill"></i>
                         </li>
                         `;
@@ -92,7 +95,7 @@ function updateTask(taskElement) {
 //FUNCIONALIDAD DEL BOTON TRASH Y PENCIL
 list.addEventListener('click', (e) => {
     const deleteButton = e.target.closest(".bi-trash-fill");
-    const updateButton = e.target.closest(".bi-pencil-square");
+    const updateButton = e.target.closest("[id^='edit_']");
 
     if (deleteButton) {
       const listItem = deleteButton.parentNode;
@@ -101,7 +104,8 @@ list.addEventListener('click', (e) => {
       deleteTask(task, listItem);
     } else if (updateButton) {
         const listItem = updateButton.parentNode;
-        updateTask(listItem);
+        const taskId = parseInt(updateButton.id.split("_")[1]);
+        updateTask(listItem, taskId);
       }
   });
 
