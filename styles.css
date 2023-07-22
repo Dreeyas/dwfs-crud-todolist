@@ -107,7 +107,7 @@ body {
     gap: 20px;
     border-radius: 5px;
     background-color: #00000007;
-    margin: 5px 10px ;
+    margin: 5px 10px;
 }
 
 .list_area i {
@@ -119,6 +119,26 @@ body {
     font-size: 16px;
 }
 
-.line-trough {
-    text-decoration: line-through;
+/*Zona de boton clear*/
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-top: 50px;
+}
+
+
+#clear-all {
+    border-radius: 3px;
+    font-size: 15px;
+    cursor: pointer;
+    padding: .1em .6em;
+    border: none;
+    background-color: #ec5182;
+    color: rgb(239, 238, 238);;
+}
+
+#clear-all:hover {
+    transform: scale(1.1);
+    transition: all 0.2s ease;
 }
