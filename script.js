@@ -91,7 +91,6 @@ function updateTask(taskElement) {
   });
 }
 
-
 //FUNCIONALIDAD DEL BOTON TRASH Y PENCIL
 list.addEventListener('click', (e) => {
     const deleteButton = e.target.closest(".bi-trash-fill");
@@ -108,6 +107,17 @@ list.addEventListener('click', (e) => {
         updateTask(listItem, taskId);
       }
   });
+
+// ZONA DE BORRAR TODAS LAS TAREAS
+function clearAllTasks() {
+  tasks = [];
+  list.innerHTML = "";
+  saveTasks();
+}
+
+// Evento clic del botón "Clear All"
+const clearAllButton = document.querySelector("button");
+clearAllButton.addEventListener("click", clearAllTasks);
 
 //ZONA DE LOCALSTORAGE
 function saveTasks (){
