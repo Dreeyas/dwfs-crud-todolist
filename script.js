@@ -46,22 +46,19 @@ enterTask.addEventListener('keydown', function (e) {
 
 //ZONA DE MOSTRAR TAREAS EN LA LISTA
 function showTasks() {
-  list.innerHTML = "" //Aca estoy limpiando la lista para que quede vacia al recargar
-  tasks.forEach ((task, i) => {
+  list.innerHTML = "";
+  tasks.forEach((task, i) => {
     const listItem = document.createElement("li");
-    const taskId = i++;
-    listItem.innerHTML =
-                        `
-                        <input type="checkbox">
-                        <p class="task_text">${task}</p>
-                        <i id= "edit_${taskId}" class="bi bi-pencil-square"></i>
-                        <i class="bi bi-trash-fill"></i>
-                        </li>
-                        `;
+    listItem.innerHTML = `
+      <input type="checkbox">
+      <p class="task_text">${task}</p>
+      <i id="edit_${i}" class="bi bi-pencil-square"></i>
+      <i class="bi bi-trash-fill"></i>
+    `;
 
     list.appendChild(listItem);
   });
-};
+}
 
 //ZONA DE BORRAR TAREA 
 function deleteTask(task, listItem) {
@@ -73,23 +70,26 @@ function deleteTask(task, listItem) {
 
 //ZONA DE EDITAR LA TAREA 
 function updateTask(taskElement) {
-    const taskText = taskElement.querySelector(".task_text");
-    const taskInput = document.createElement("input");
-    taskInput.type = "text";
-    taskInput.value = taskText.textContent;
-    taskInput.className = "edit_task_input";
-  
-    taskElement.replaceChild(taskInput, taskText);
-    taskInput.focus();
-  
-    taskInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        taskText.textContent = taskInput.value;
-        taskElement.replaceChild(taskText, taskInput);
-      }
-      saveTasks ();
-    });
-  }
+  const listItem = taskElement;
+  const taskId = Array.from(list.children).indexOf(listItem);
+
+  const taskText = listItem.querySelector(".task_text");
+  const taskInput = document.createElement("input");
+  taskInput.type = "text";
+  taskInput.value = taskText.textContent;
+  taskInput.className = "edit_task_input";
+
+  listItem.replaceChild(taskInput, taskText);
+  taskInput.focus();
+
+  taskInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      tasks[taskId] = taskInput.value;
+      saveTasks();
+      showTasks();
+    }
+  });
+}
 
 
 //FUNCIONALIDAD DEL BOTON TRASH Y PENCIL
